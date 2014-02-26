@@ -37,50 +37,50 @@ class ibconn:
             self.ib_zone_auth_fields = 'address,allow_active_dir,allow_gss_tsig_for_underscore_zone,allow_gss_tsig_zone_updates,allow_query,allow_transfer,allow_update,allow_update_forwarding,comment,copy_xfer_to_notify,create_underscore_zones,disable,disable_forwarding,display_domain,dns_fqdn,dns_soa_email,dns_soa_mname,dnssec_key_params,effective_check_names_policy,effective_record_name_policy,extattrs,external_primaries,external_secondaries,fqdn,grid_primary,grid_primary_shared_with_ms_parent_delegation,grid_secondaries,is_dnssec_enabled,is_dnssec_signed,last_queried,locked,locked_by,mask_prefix,ms_ad_integrated,ms_allow_transfer,ms_allow_transfer_mode,ms_ddns_mode,ms_managed,ms_primaries,ms_read_only,ms_secondaries,ms_sync_master_name,network_associations,network_view,notify_delay,ns_group,parent,prefix,primary_type,record_name_policy,records_monitored,rr_not_queried_enabled_time,soa_default_ttl,soa_email,soa_expire,soa_mname,soa_negative_ttl,soa_refresh,soa_retry,soa_serial_number,srgs,update_forwarding,use_allow_active_dir,use_allow_transfer,use_allow_update,use_allow_update_forwarding,use_check_names_policy,use_copy_xfer_to_notify,use_dnssec_key_params,use_external_primary,use_grid_zone_timer,use_import_from,use_record_name_policy,use_soa_email,use_soa_mname,using_srg_associations,view,zone_format,zone_not_queried_enabled_time'
             self.ib_zone_delegated_fields = 'address,comment,delegate_to,delegated_ttl,disable,display_domain,dns_fqdn,enable_rfc2317_exclusion,extattrs,fqdn,locked,locked_by,mask_prefix,ms_ad_integrated,ms_ddns_mode,ms_managed,ms_read_only,ms_sync_master_name,parent,prefix,use_delegated_ttl,using_srg_associations,view,zone_format'
 
-    def get_fixedaddress (self, keyfield, key, numresults=100, fields=None):
-    """
-    Get Fixed Address from Infoblox WAPI
-    """
+    def get_fixedaddress(self, keyfield, key, numresults=100, fields=None):
+        """
+        Get Fixed Address from Infoblox WAPI
+        """
 
         if fields is None:
             fields = self.ib_fixedaddr_fields
         r = requests.get('https://' + self.ib_address + self.path + self.version + '/fixedaddress?' + keyfield + '=' + key + '&_return_fields=' + fields + '&_max_results=-' + str(numresults), auth=(self.username, self.password), verify=self.verify)
         return r.json()
 
-    def get_lease (self, keyfield, key, numresults=100, fields=None):
-    """
-    Get DHCP Lease information keyfield can be MAC or IP
-    """
+    def get_lease(self, keyfield, key, numresults=100, fields=None):
+        """
+        Get DHCP Lease information keyfield can be MAC or IP
+        """
 
         if fields is None:
             fields = self.ib_lease_fields
         r = requests.get('https://' + self.ib_address + self.path + self.version + '/lease?' + keyfield + '=' + key + '&_return_fields=' + fields + '&_max_results=-' + str(numresults), auth=(self.username, self.password), verify=self.verify)
         return r.json()
 
-    def get_macfilteraddress (self, keyfield, key, numresults=100, fields=None):
-    """
-    Returns the MAC Filter for a device, accepts MAC or IP and keyfield
-    """
+    def get_macfilteraddress(self, keyfield, key, numresults=100, fields=None):
+        """
+        Returns the MAC Filter for a device, accepts MAC or IP and keyfield
+        """
 
         if fields is None:
             fields = self.ib_macfilteraddress_fields
         r = requests.get('https://' + self.ib_address + self.path + self.version + '/macfilteraddress?' + keyfield + '=' + key + '&_return_fields=' + fields + '&_max_results=-' + str(numresults), auth=(self.username, self.password), verify=self.verify)
         return r.json()
 
-    def get_zone_auth (self, keyfield, key, fields=None):
-    """
-    Returns Information about a zone that Infoblox is authoritative for.
-    """
+    def get_zone_auth(self, keyfield, key, fields=None):
+        """
+        Returns Information about a zone that Infoblox is authoritative for.
+        """
 
         if fields is None:
             fields = self.ib_zone_auth_fields
         r = requests.get('https://' + self.ib_address + self.path + self.version + '/zone_auth?' + keyfield + '=' + key + '&_return_fields=' + fields, auth=(self.username, self.password), verify=self.verify)
         return r.json()
 
-    def get_zone_delegated (self, keyfield, key, fields=None):
-    """
-    Return information about delegated DNS Zones
-    """
+    def get_zone_delegated(self, keyfield, key, fields=None):
+        """
+        Return information about delegated DNS Zones
+        """
 
         if fields is None:
             fields = self.ib_zone_delegated_fields
