@@ -4,6 +4,7 @@ import requests
 import pprint
 import ConfigParser
 
+
 class ibconn:
     """
     Helper Objects for Infoblox WAPI Connections
@@ -85,4 +86,3 @@ class ibconn:
             fields = self.ib_zone_delegated_fields
         r = requests.get('https://' + self.ib_address + self.path + self.version + '/zone_delegated?' + keyfield + '=' + key + '&_return_fields=' + fields, auth=(self.username, self.password), verify=self.verify)
         return r.json()
-

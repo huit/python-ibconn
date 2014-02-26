@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
-import sys, os
+import sys
+import os
 
 long_description = 'IBConn is a library for working with the infoblox rest api'
 version = '0.1'
@@ -17,7 +18,12 @@ setup(
     packages=['ibconn'],
     install_requires=[
         # -*- Extra requirements: -*-
-        ],
+    ],
     entry_points= {
-        },
-    )
+    },
+    tests_require = [
+        'flake8>=2.1.0',
+        'nose>=1.3.0',
+        'coverage>=3.7',
+    ],
+)
