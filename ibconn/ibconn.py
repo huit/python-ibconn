@@ -6,6 +6,9 @@ import ConfigParser
 
 
 class ibconn:
+    """
+    Helper Objects for Infoblox WAPI Connections
+    """
     def __init__(self, conffile):
         config = ConfigParser.ConfigParser()
         try:
@@ -35,6 +38,9 @@ class ibconn:
             self.ib_zone_delegated_fields = 'address,comment,delegate_to,delegated_ttl,disable,display_domain,dns_fqdn,enable_rfc2317_exclusion,extattrs,fqdn,locked,locked_by,mask_prefix,ms_ad_integrated,ms_ddns_mode,ms_managed,ms_read_only,ms_sync_master_name,parent,prefix,use_delegated_ttl,using_srg_associations,view,zone_format'
 
     def get_fixedaddress(self, keyfield, key, numresults=100, fields=None):
+        """
+        Get Fixed Address from Infoblox WAPI
+        """
 
         if fields is None:
             fields = self.ib_fixedaddr_fields
@@ -42,6 +48,9 @@ class ibconn:
         return r.json()
 
     def get_lease(self, keyfield, key, numresults=100, fields=None):
+        """
+        Get DHCP Lease information keyfield can be MAC or IP
+        """
 
         if fields is None:
             fields = self.ib_lease_fields
@@ -49,6 +58,9 @@ class ibconn:
         return r.json()
 
     def get_macfilteraddress(self, keyfield, key, numresults=100, fields=None):
+        """
+        Returns the MAC Filter for a device, accepts MAC or IP and keyfield
+        """
 
         if fields is None:
             fields = self.ib_macfilteraddress_fields
@@ -56,6 +68,9 @@ class ibconn:
         return r.json()
 
     def get_zone_auth(self, keyfield, key, fields=None):
+        """
+        Returns Information about a zone that Infoblox is authoritative for.
+        """
 
         if fields is None:
             fields = self.ib_zone_auth_fields
@@ -63,6 +78,9 @@ class ibconn:
         return r.json()
 
     def get_zone_delegated(self, keyfield, key, fields=None):
+        """
+        Return information about delegated DNS Zones
+        """
 
         if fields is None:
             fields = self.ib_zone_delegated_fields
