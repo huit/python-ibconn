@@ -3,7 +3,8 @@ import json
 import requests
 import pprint
 import ConfigParser
-
+import dns.resolver
+import logging
 
 class ibconn:
     """
@@ -86,3 +87,22 @@ class ibconn:
             fields = self.ib_zone_delegated_fields
         r = requests.get('https://' + self.ib_address + self.path + self.version + '/zone_delegated?' + keyfield + '=' + key + '&_return_fields=' + fields, auth=(self.username, self.password), verify=self.verify)
         return r.json()
+
+    def create_zone_delegated(self, view, fqdn, dns1, dns1ip, dns2=None, dns2ip=None, dns3=None, dns3ip=None, dns4=None, dns4ip=None):
+        """
+        Create a new delegated DNS Zone, specifying between 1 and 4 nameservers for the new zone
+        """
+
+        headers={'Content-type': 'application/json', 'Accept': 'text/plain'}
+        dnslist = [{'address':dns1ip, 'name':dns1}]
+        if dns2 is not None:
+            dnslist.append({"address":dns2ip, "name":dns2})
+        if dns3 is not None:
+            dnslist.append({"address":dns3ip, "name":dns3})
+        if dns4 is not None:
+            dnslist.append({"address":dns4ip, "name":dns4})
+        paramset = {'fqdn': fqdn, 'delegate_to':dnslist, 'view':view}
+        logging.debug(json.dumps (paramset, separators=(',',':'), sort_keys=True, indent=4))
+        r = requests.post('https://' + self.ib_address + self.path + self.version + '/zone_delegated', data=json.dumps(paramset), headers=headers, auth=(self.username, self.password), verify=self.verify)
+        logging.debug(r.text)
+        logging.debug(r.headers)
