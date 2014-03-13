@@ -3,7 +3,7 @@ import sys
 import os
 
 long_description = 'IBConn is a library for working with the infoblox rest api'
-version = '0.0.1'
+version = '0.0.2'
 
 setup(
     name='ibconn',
