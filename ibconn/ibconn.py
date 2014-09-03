@@ -40,6 +40,7 @@ class ibconn:
             self.ib_network_fields = 'network'
             self.ib_ptr_fields = 'comment,disable,discovered_data,dns_name,dns_ptrdname,extattrs,ipv4addr,ipv6addr,name,ptrdname,ttl,use_ttl,view,zone'
             self.ib_range_fields = 'always_update_dns,authority,bootfile,bootserver,comment,ddns_domainname,ddns_generate_hostname,deny_all_clients,deny_bootp,disable,email_list,enable_ddns,enable_dhcp_thresholds,enable_email_warnings,enable_ifmap_publishing,enable_snmp_warnings,end_addr,exclude,extattrs,failover_association,fingerprint_filter_rules,high_water_mark,high_water_mark_reset,ignore_dhcp_option_list_request,is_split_scope,known_clients,lease_scavenge_time,logic_filter_rules,low_water_mark,low_water_mark_reset,mac_filter_rules,member,ms_options,ms_server,nac_filter_rules,name,network,network_view,nextserver,option_filter_rules,options,pxe_lease_time,recycle_leases,relay_agent_filter_rules,server_association_type,start_addr,update_dns_on_lease_renewal,use_authority,use_bootfile,use_ddns_domainname,use_ddns_generate_hostname,use_deny_bootp,use_email_list,use_enable_dhcp_thresholds,use_enable_ifmap_publishing,use_ignore_dhcp_option_list_request,use_known_clients,use_nextserver,use_options,use_recycle_leases,use_unknown_clients,use_update_dns_on_lease_renewal'
+            self.ib_record_a_fields = 'comment,disable,discovered_data,dns_name,extattrs,ipv4addr,name,ttl,use_ttl,view,zone'
             self.ib_zone_auth_fields = 'address,allow_active_dir,allow_gss_tsig_for_underscore_zone,allow_gss_tsig_zone_updates,allow_query,allow_transfer,allow_update,allow_update_forwarding,comment,copy_xfer_to_notify,create_underscore_zones,disable,disable_forwarding,display_domain,dns_fqdn,dns_soa_email,dns_soa_mname,dnssec_key_params,effective_check_names_policy,effective_record_name_policy,extattrs,external_primaries,external_secondaries,fqdn,grid_primary,grid_primary_shared_with_ms_parent_delegation,grid_secondaries,is_dnssec_enabled,is_dnssec_signed,last_queried,locked,locked_by,mask_prefix,ms_ad_integrated,ms_allow_transfer,ms_allow_transfer_mode,ms_ddns_mode,ms_managed,ms_primaries,ms_read_only,ms_secondaries,ms_sync_master_name,network_associations,network_view,notify_delay,ns_group,parent,prefix,primary_type,record_name_policy,records_monitored,rr_not_queried_enabled_time,soa_default_ttl,soa_email,soa_expire,soa_mname,soa_negative_ttl,soa_refresh,soa_retry,soa_serial_number,srgs,update_forwarding,use_allow_active_dir,use_allow_transfer,use_allow_update,use_allow_update_forwarding,use_check_names_policy,use_copy_xfer_to_notify,use_dnssec_key_params,use_external_primary,use_grid_zone_timer,use_import_from,use_record_name_policy,use_soa_email,use_soa_mname,using_srg_associations,view,zone_format,zone_not_queried_enabled_time'
             self.ib_zone_delegated_fields = 'address,comment,delegate_to,delegated_ttl,disable,display_domain,dns_fqdn,enable_rfc2317_exclusion,extattrs,fqdn,locked,locked_by,mask_prefix,ms_ad_integrated,ms_ddns_mode,ms_managed,ms_read_only,ms_sync_master_name,parent,prefix,use_delegated_ttl,using_srg_associations,view,zone_format'
 
@@ -160,8 +161,12 @@ class ibconn:
         """
         Returns an A record
         """
+
         if fields is None:
             fields = self.ib_record_a_fields
+        logging.debug('ibconn: in get_record_a')
+        r = requests.get('https://' + self.ib_address + self.path + self.version + '/record:a?' + keyfield + '=' + key + '&_return_fields=' + fields + '&_max_results=-' + str(numresults), auth=(self.username, self.password), verify=self.verify)
+        return r.json()
 
     def get_zone_auth(self, keyfield, key, fields=None):
         """
